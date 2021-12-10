@@ -24,18 +24,18 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: apertium/${{ inputs.lang1 }}
-          path: /tmp/${{ inputs.lang1 }}
+          path: tmp-lang/${{ inputs.lang1 }}
       - name: Checkout LANG2
         uses: actions/checkout@v2
         with:
           repository: apertium/${{ inputs.lang2 }}
-          path: /tmp/${{ inputs.lang2 }}
+          path: tmp-lang/${{ inputs.lang2 }}
       - name: Configure monolinguals
         run: |
-          cd /tmp/${{ inputs.lang1 }} && ./autogen.sh
-          cd /tmp/${{ inputs.lang2 }} && ./autogen.sh
+          pushd tmp-lang/${{ inputs.lang1 }} && ./autogen.sh && popd
+          pushd tmp-lang/${{ inputs.lang2 }} && ./autogen.sh && popd
       - name: Build and test
         run: |
-          ./autogen.sh --with-lang1=/tmp/${{ inputs.lang1 }} --with-lang2=/tmp/${{ inputs.lang2 }}
+          ./autogen.sh --with-lang1=tmp-lang/${{ inputs.lang1 }} --with-lang2=tmp-lang/${{ inputs.lang2 }}
           make -j2 langs
           make test
