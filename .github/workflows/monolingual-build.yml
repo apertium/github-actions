@@ -18,4 +18,5 @@ jobs:
           ./autogen.sh
           make -j2
       - name: Test
+        run: |
           make test

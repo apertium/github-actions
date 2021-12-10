@@ -39,4 +39,5 @@ jobs:
           ./autogen.sh --with-lang1=tmp-lang/${{ inputs.lang1 }} --with-lang2=tmp-lang/${{ inputs.lang2 }}
           make -j2 langs
       - name: Test
+        run: |
           make test
