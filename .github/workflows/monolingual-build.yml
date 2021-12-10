@@ -13,8 +13,9 @@ jobs:
         run: |
           wget https://apertium.projectjj.com/apt/install-nightly.sh -O - | sudo bash
           sudo apt-get install -qfy apertium-dev apertium-lex-tools cg3-dev gawk pkg-config apertium-regtest
-      - name: Build and test
+      - name: Build
         run: |
           ./autogen.sh
           make -j2
+      - name: Test
           make test

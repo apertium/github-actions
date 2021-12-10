@@ -34,8 +34,9 @@ jobs:
         run: |
           pushd tmp-lang/${{ inputs.lang1 }} && ./autogen.sh && popd
           pushd tmp-lang/${{ inputs.lang2 }} && ./autogen.sh && popd
-      - name: Build and test
+      - name: Build
         run: |
           ./autogen.sh --with-lang1=tmp-lang/${{ inputs.lang1 }} --with-lang2=tmp-lang/${{ inputs.lang2 }}
           make -j2 langs
+      - name: Test
           make test
