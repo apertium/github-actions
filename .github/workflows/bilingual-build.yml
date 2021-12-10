@@ -1,0 +1,41 @@
+name: Apertium Bilingual CI/CD
+
+on:
+  workflow_call:
+    inputs:
+      lang1:
+        required: true
+        type: string
+      lang2:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          wget https://apertium.projectjj.com/apt/install-nightly.sh -O - | sudo bash
+          sudo apt-get install -qfy apertium-dev apertium-lex-tools cg3-dev gawk pkg-config apertium-regtest python3
+      - name: Checkout LANG1
+        uses: actions/checkout@v2
+        with:
+          repository: apertium/${{ inputs.lang1 }}
+          path: /tmp/${{ inputs.lang1 }}
+      - name: Checkout LANG2
+        uses: actions/checkout@v2
+        with:
+          repository: apertium/${{ inputs.lang2 }}
+          path: /tmp/${{ inputs.lang2 }}
+      - name: Configure monolinguals
+        run: |
+          cd /tmp/${{ inputs.lang1 }} && ./autogen.sh
+          cd /tmp/${{ inputs.lang2 }} && ./autogen.sh
+      - name: Build and test
+        run: |
+          ./autogen.sh --with-lang1=/tmp/${{ inputs.lang1 }} --with-lang2=/tmp/${{ inputs.lang2 }}
+          make -j2 langs
+          make test
