@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           wget https://apertium.projectjj.com/apt/install-nightly.sh -O - | sudo bash
-          sudo apt-get install -qfy apertium-dev apertium-lex-tools cg3-dev gawk pkg-config apertium-regtest python3
+          sudo apt-get install -qfy apertium-dev apertium-lex-tools-dev cg3-dev gawk pkg-config apertium-regtest python3
       - name: Checkout LANG1
         uses: actions/checkout@v2
         with:
