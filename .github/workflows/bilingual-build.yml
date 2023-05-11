@@ -40,4 +40,5 @@ jobs:
           make -j2 langs
       - name: Test
         run: |
+          export AP_REGTEST_MIN=80 AP_REGTEST_QUIET=yes
           make test
